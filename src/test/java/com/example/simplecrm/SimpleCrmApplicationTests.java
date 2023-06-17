@@ -34,8 +34,10 @@ class SimpleCrmApplicationTests {
 
 	@BeforeEach
 	void setup() {
-		employeeRepository.save(new Employee(1, "John", "Doe", "john@a.com", "123456", Department.Accounting));
-		employeeRepository.save(new Employee(2, "Tony", "Stark", "tony@a.com", "123456", Department.Finance));
+		employeeRepository
+				.save(new Employee(1, "John", "Doe", "john@a.com", "123456", Department.Accounting, "person1"));
+		employeeRepository
+				.save(new Employee(2, "Tony", "Stark", "tony@a.com", "123456", Department.Finance, "person2"));
 	}
 
 	@Test
@@ -73,15 +75,16 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void validEmployeeCreationTest() throws Exception {
 		// Step 1: Build the request to create a employee
-		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "123456", Department.Operations);
+		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "123456", Department.Operations,
+				"Bruce");
 
-			// Step 2: Convert the Java object to JSON
-			String newUserAsJson = objectmapper.writeValueAsString(newEmployee);
+		// Step 2: Convert the Java object to JSON
+		String newUserAsJson = objectmapper.writeValueAsString(newEmployee);
 
-			// Step 3: Build the request to create a employee
+		// Step 3: Build the request to create a employee
 		RequestBuilder request = MockMvcRequestBuilders.post("/employees")
-		.contentType(MediaType.APPLICATION_JSON)
-		.content(newUserAsJson);
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(newUserAsJson);
 
 		// Step 4: Perform the request and get the result
 		mockMvc.perform(request)
@@ -96,7 +99,7 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void invalidUserCreationTest() throws Exception {
 		// Step 1: Create an invalid employee
-		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "123456", Department.Marketing );
+		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "123456", Department.Marketing, "Banner");
 
 		// Step 2: Convert the Java object to JSON
 		String invalidEmployeeAsJson = objectmapper.writeValueAsString(invalidEmployee);
@@ -106,8 +109,8 @@ class SimpleCrmApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(invalidEmployeeAsJson);
 
-				// Step 4: Perform the request and get the result
-				mockMvc.perform(request)
+		// Step 4: Perform the request and get the result
+		mockMvc.perform(request)
 				.andExpect(status().isBadRequest());
 	}
 

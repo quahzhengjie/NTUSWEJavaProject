@@ -43,19 +43,21 @@ public class Employee {
   @Enumerated(EnumType.STRING)
   private Department department;
 
-  // @Column(name = "department")
-  // private String department;
+  @Column(name = "loginId")
+  private String loginId;
 
   public Employee() {
   }
 
-  public Employee(int id, String firstName, String lastName, String email, String contact, Department department) {
+  public Employee(int id, String firstName, String lastName, String email, String contact, Department department,
+      String loginId) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.contact = contact;
     this.department = department;
+    this.loginId = loginId;
   }
 
   public int getId() {
@@ -106,15 +108,23 @@ public class Employee {
     this.department = department;
   }
 
+  public String getLoginId() {
+    return loginId;
+  }
+
+  public void setLoginId(String loginId) {
+    this.loginId = loginId;
+  }
+
   // @Override
   // public String toString() {
-  //   return "User{" +
-  //       "id=" + id +
-  //       ", firstName='" + firstName + '\'' +
-  //       ", lastName='" + lastName + '\'' +
-  //       ", email='" + email + '\'' +
-  //       ", department='" + department + '\'' +
-  //       ", contact='" + contact + '\'' +
-  //       '}';
+  // return "User{" +
+  // "id=" + id +
+  // ", firstName='" + firstName + '\'' +
+  // ", lastName='" + lastName + '\'' +
+  // ", email='" + email + '\'' +
+  // ", department='" + department + '\'' +
+  // ", contact='" + contact + '\'' +
+  // '}';
   // }
 }

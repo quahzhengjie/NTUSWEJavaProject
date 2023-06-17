@@ -12,6 +12,7 @@ public class Login {
   @Column(name = "loginid")
   private String loginId;
 
+  @Column(name = "password")
   private String password;
 
   @Column(name = "jwt_token")

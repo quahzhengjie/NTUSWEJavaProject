@@ -31,7 +31,7 @@ public class EmployeeServiceImplTest {
   @Test
   public void createEmployeeTest() {
     // Mock the data
-    Employee newEmployee = new Employee(1, "John", "Doe", "john@a.com", "123456", Department.IT);
+    Employee newEmployee = new Employee(1, "John", "Doe", "john@a.com", "123456", Department.IT, "John");
 
     // Mock the repo method
     when(employeeRepository.save(newEmployee)).thenReturn(newEmployee);
@@ -50,8 +50,8 @@ public class EmployeeServiceImplTest {
     // Arrange - Mock the data
 
     when(employeeRepository.findAll()).thenReturn(Arrays.asList(
-      new Employee(1, "Tony", "Stark", "tony@a.com", "123456", Department.Operations),
-      new Employee(2, "Bruce", "Banner", "bruce@avengers.com", "123456", Department.HR)
+      new Employee(1, "Tony", "Stark", "tony@a.com", "123456", Department.Operations, "Tony"),
+      new Employee(2, "Bruce", "Banner", "bruce@avengers.com", "123456", Department.HR, "Bruce")
     ));
 
     // Act
@@ -65,7 +65,7 @@ public class EmployeeServiceImplTest {
   @Test
   public void getUserTest() {
     // Arrange - Mock the data
-    Employee newEmployee = new Employee(1, "Tony", "Stark", "tony@a.com", "123456", Department.Sales);
+    Employee newEmployee = new Employee(1, "Tony", "Stark", "tony@a.com", "123456", Department.Sales, "Tony");
 
     when(employeeRepository.findById(1)).thenReturn(Optional.of(newEmployee));
 
