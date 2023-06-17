@@ -1,70 +1,120 @@
 package com.example.simplecrm.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+
+
 
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  @Column(name = "id")
+  private int id;
 
-  @Column(name = "uid")
-  private Long uid;
+  @OneToOne(optional = false)
+  @JoinColumn(name = "employee_id", referencedColumnName = "id")
+  private Employee idEmployee;
 
   @Column(name = "role_name")
-  private String roleName;
+  @Enumerated(EnumType.STRING)
+  private Roles roleName;
 
-  private String department;
+  
+  // @OneToOne(optional = true)
+  // @JoinColumn(name = "employee_department", referencedColumnName = "department")
+  // private Employee departmentEmployee;
+  @Column(name = " department")
+  private Enum userRoleDepartment;
 
   public UserRole() {
   }
 
-  public UserRole(Long uid, String roleName, String department) {
-    this.uid = uid;
+  public UserRole(int id, Roles roleName) {
+    this.id = id;
+    //this.uid = uid;
     this.roleName = roleName;
-    this.department = department;
+    //this.department = department;
   }
 
-  public Long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
-  public Long getUid() {
-    return uid;
-  }
+  // public int getUid() {
+  //   return uid;
+  // }
 
-  public void setUid(Long uid) {
-    this.uid = uid;
-  }
+  // public void setUid(int uid) {
+  //   this.uid = uid;
+  // }
 
-  public String getRoleName() {
+  public Roles getRoleName() {
     return roleName;
   }
 
-  public void setRoleName(String roleName) {
+  public void setRoleName(Roles roleName) {
     this.roleName = roleName;
   }
 
-  public String getDepartment() {
-    return department;
-  }
+  // public String getDepartment() {
+  //   return department;
+  // }
 
-  public void setDepartment(String department) {
-    this.department = department;
-  }
+  // public void setDepartment(String department) {
+  //   this.department = department;
+  // }
+
+  
+
+  
 
   @Override
   public String toString() {
     return "UserRole{" +
         "id=" + id +
-        ", uid=" + uid +
-        ", roleName='" + roleName + '\'' +
-        ", department='" + department + '\'' +
+        ", roleName='" + roleName +
         '}';
   }
+
+
+
+
+
+public Employee getEmployee(){
+  return this.idEmployee;
+}
+
+
+public void setEmployee(Employee idEmployee){
+  this.idEmployee = idEmployee;
+}
+
+public Enum getUserRoleDepartment() {
+  return userRoleDepartment;
+}
+
+public void setUserRoleDepartment(Enum userRoledepartment) {
+  this.userRoleDepartment = userRoledepartment;
+}
+
+
+
+
+
 }

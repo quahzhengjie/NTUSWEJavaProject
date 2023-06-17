@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.simplecrm.model.Employee;
+import com.example.simplecrm.model.UserRole;
 import com.example.simplecrm.exception.EmployeeNotFoundException;
 import com.example.simplecrm.repository.EmployeeRepository;
+import com.example.simplecrm.repository.UserRoleRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -16,6 +18,9 @@ public class EmployeeServiceImpl implements EmployeeService {
   // Field-based injection
   @Autowired
   private EmployeeRepository employeeRepository;
+
+  @Autowired
+  private UserRoleRepository userRoleRepository;
 
   // Create
   @Override
@@ -72,4 +77,24 @@ public class EmployeeServiceImpl implements EmployeeService {
   public void deleteEmployee(int id) {
     employeeRepository.deleteById(id);
   }
+
+
+
+      //add userRole to employee
+    @Override
+    public UserRole addUserRoleToEmployee(int id, UserRole userRole){
+        //Retrive Employee from Emplyee repo
+        Optional<Employee> wrappedSelectedEmployee = employeeRepository.findById(id);
+        if(!wrappedSelectedEmployee.isPresent()){
+            throw new EmployeeNotFoundException(id);
+        }
+        Employee selectedEmployee = wrappedSelectedEmployee.get();
+        //add department
+        userRole.setUserRoleDepartment(selectedEmployee.getDepartment());
+        //add employee to userRole
+        userRole.setEmployee(selectedEmployee);
+        //add userRole to DB
+        return userRoleRepository.save(userRole);
+    }
+
 }

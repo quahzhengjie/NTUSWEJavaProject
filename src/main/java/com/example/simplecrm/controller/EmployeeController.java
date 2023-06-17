@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.simplecrm.model.Employee;
+import com.example.simplecrm.model.UserRole;
+import com.example.simplecrm.service.UserRoleService;
 import com.example.simplecrm.service.EmployeeService;
 
 @RestController
@@ -66,5 +68,14 @@ public class EmployeeController {
     employeeService.deleteEmployee(id);
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
+
+//Add userRole to employee
+  @PostMapping("/{id}/userroles")
+  public ResponseEntity<UserRole> addUserRoleToEmployee(@PathVariable int id, @RequestBody UserRole userRole){
+    UserRole newUserRole = employeeService.addUserRoleToEmployee(id, userRole);
+    return new ResponseEntity<>(newUserRole, HttpStatus.CREATED);
+
+
+}
 
 }
