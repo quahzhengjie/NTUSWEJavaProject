@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import com.example.simplecrm.model.Department;
 import com.example.simplecrm.model.Employee;
 import com.example.simplecrm.repository.EmployeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,8 +34,8 @@ class SimpleCrmApplicationTests {
 
 	@BeforeEach
 	void setup() {
-		employeeRepository.save(new Employee(1, "John", "Doe", "john@a.com", "HR", "123456"));
-		employeeRepository.save(new Employee(2, "Tony", "Stark", "tony@a.com", "Operations", "123456"));
+		employeeRepository.save(new Employee(1, "John", "Doe", "john@a.com", "123456", Department.Accounting));
+		employeeRepository.save(new Employee(2, "Tony", "Stark", "tony@a.com", "123456", Department.Finance));
 	}
 
 	@Test
@@ -72,7 +73,7 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void validEmployeeCreationTest() throws Exception {
 		// Step 1: Build the request to create a employee
-		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "Finance", "123456");
+		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "123456", Department.Operations);
 
 			// Step 2: Convert the Java object to JSON
 			String newUserAsJson = objectmapper.writeValueAsString(newEmployee);
@@ -95,7 +96,7 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void invalidUserCreationTest() throws Exception {
 		// Step 1: Create an invalid employee
-		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "Finance", "123456" );
+		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "123456", Department.Marketing );
 
 		// Step 2: Convert the Java object to JSON
 		String invalidEmployeeAsJson = objectmapper.writeValueAsString(invalidEmployee);

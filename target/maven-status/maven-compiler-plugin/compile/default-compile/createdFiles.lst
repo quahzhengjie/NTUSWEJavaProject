@@ -24,4 +24,5 @@ com/example/simplecrm/lessonreferencefiles/Interaction.class
 com/example/simplecrm/lessonreferencefiles/InteractionNotFoundException.class
 com/example/simplecrm/lessonreferencefiles/InteractionServiceImpl.class
 com/example/simplecrm/repository/ExpensesClaimRepository.class
+com/example/simplecrm/controller/Department.class
 com/example/simplecrm/service/EmployeeServiceImpl.class

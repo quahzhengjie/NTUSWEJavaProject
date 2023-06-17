@@ -60,8 +60,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeToUpdate.setFirstName(employee.getFirstName());
     employeeToUpdate.setLastName(employee.getLastName());
     employeeToUpdate.setEmail(employee.getEmail());
-    employeeToUpdate.setContact(employee.getContact());
     employeeToUpdate.setDepartment(employee.getDepartment());
+    employeeToUpdate.setContact(employee.getContact());
 
     // Save and return the data
     return employeeRepository.save(employeeToUpdate);

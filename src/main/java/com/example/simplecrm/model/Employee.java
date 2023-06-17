@@ -2,6 +2,8 @@ package com.example.simplecrm.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,22 +36,26 @@ public class Employee {
   @NotBlank(message = "Email is mandatory.")
   private String email;
 
-  @Column(name = "department")
-  private String department;
-
   @Column(name = "contact")
   private String contact;
+
+  @Column(name = "department")
+  @Enumerated(EnumType.STRING)
+  private Department department;
+
+  // @Column(name = "department")
+  // private String department;
 
   public Employee() {
   }
 
-  public Employee(int id, String firstName, String lastName, String email, String department, String contact) {
+  public Employee(int id, String firstName, String lastName, String email, String contact, Department department) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.department = department;
     this.contact = contact;
+    this.department = department;
   }
 
   public int getId() {
@@ -84,20 +90,20 @@ public class Employee {
     this.email = email;
   }
 
-  public String getDepartment() {
-    return department;
-  }
-
-  public void setDepartment(String department) {
-    this.department = department;
-  }
-
   public String getContact() {
     return contact;
   }
 
   public void setContact(String contact) {
     this.contact = contact;
+  }
+
+  public Department getDepartment() {
+    return department;
+  }
+
+  public void setDepartment(Department department) {
+    this.department = department;
   }
 
   // @Override
