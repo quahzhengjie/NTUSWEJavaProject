@@ -43,9 +43,6 @@ public class Employee {
   @Enumerated(EnumType.STRING)
   private Department department;
 
-  // @Column(name = "department")
-  // private String department;
-
   public Employee() {
   }
 
@@ -108,13 +105,13 @@ public class Employee {
 
   // @Override
   // public String toString() {
-  //   return "User{" +
-  //       "id=" + id +
-  //       ", firstName='" + firstName + '\'' +
-  //       ", lastName='" + lastName + '\'' +
-  //       ", email='" + email + '\'' +
-  //       ", department='" + department + '\'' +
-  //       ", contact='" + contact + '\'' +
-  //       '}';
+  // return "User{" +
+  // "id=" + id +
+  // ", firstName='" + firstName + '\'' +
+  // ", lastName='" + lastName + '\'' +
+  // ", email='" + email + '\'' +
+  // ", department='" + department + '\'' +
+  // ", contact='" + contact + '\'' +
+  // '}';
   // }
 }
