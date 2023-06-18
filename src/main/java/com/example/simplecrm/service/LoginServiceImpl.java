@@ -1,10 +1,13 @@
 package com.example.simplecrm.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.simplecrm.exception.InvalidUsernameOrPasswordException;
+import com.example.simplecrm.model.Login;
 import com.example.simplecrm.repository.LoginRepository;
-import com.example.simplecrm.service.EmployeeService;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -12,31 +15,37 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private LoginRepository loginRepository;
 
-    @Autowired
-    private EmployeeService employeeService;
-
     @Override
-    public Boolean login(String loginId, String password) {
-        // 1. getUserId -> query by loginId
-        // 2. getEmployee(id)
-        // -> if returned employee not empty, return true
-        // -> set employee_id as cookie
-        // -> else, return false
-        return true;
+    public int login(String username, String password) {
+        try {
+            if (validateString(password) || validateString(username)) {
+                throw new InvalidUsernameOrPasswordException();
+            }
+
+            int loginId = Integer.parseInt(username);
+            Optional<Login> foundLogin = loginRepository.findById(loginId);
+            if (foundLogin.isPresent() && foundLogin.get().getPassword() == password) {
+                return foundLogin.get().getLoginId();
+            } else {
+                throw new InvalidUsernameOrPasswordException();
+            }
+        } catch (NumberFormatException ex) {
+            throw new InvalidUsernameOrPasswordException();
+        }
     }
 
     @Override
-    public int getUserId(String loginId) {
-        return 0;
+    public void createLoginRecord(int employeeId) {
+        Login loginRecordToBeCreated = new Login(employeeId, "password", null);
+        loginRepository.save(loginRecordToBeCreated);
+        return;
     }
 
-    @Override
-    public void setUserId(String loginId) {
-
-    }
-
-    @Override
-    public void logout() {
-        // remove cookie
+    public Boolean validateString(String stringToBeValidated) {
+        if (stringToBeValidated == null || stringToBeValidated.isEmpty() || stringToBeValidated.trim().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

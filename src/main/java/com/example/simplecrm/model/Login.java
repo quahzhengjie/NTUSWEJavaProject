@@ -10,7 +10,7 @@ public class Login {
   private Long id;
 
   @Column(name = "loginid")
-  private String loginId;
+  private int loginId;
 
   @Column(name = "password")
   private String password;
@@ -21,7 +21,7 @@ public class Login {
   public Login() {
   }
 
-  public Login(String loginId, String password, String jwtToken) {
+  public Login(int loginId, String password, String jwtToken) {
     this.loginId = loginId;
     this.password = password;
     this.jwtToken = jwtToken;
@@ -35,11 +35,11 @@ public class Login {
     this.id = id;
   }
 
-  public String getLoginId() {
+  public int getLoginId() {
     return loginId;
   }
 
-  public void setLoginId(String loginId) {
+  public void setLoginId(int loginId) {
     this.loginId = loginId;
   }
 

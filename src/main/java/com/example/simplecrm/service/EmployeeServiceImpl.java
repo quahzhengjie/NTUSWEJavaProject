@@ -29,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
   @Override
   public Employee createEmployee(Employee employee) {
     Employee newEmployee = employeeRepository.save(employee);
-    loginService.setUserId(newEmployee.getLoginId());
+    loginService.createLoginRecord(newEmployee.getId());
     return newEmployee;
   }
 

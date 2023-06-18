@@ -35,9 +35,9 @@ class SimpleCrmApplicationTests {
 	@BeforeEach
 	void setup() {
 		employeeRepository
-				.save(new Employee(1, "John", "Doe", "john@a.com", "123456", Department.Accounting, "person1"));
+				.save(new Employee(1, "John", "Doe", "john@a.com", "123456", Department.Accounting));
 		employeeRepository
-				.save(new Employee(2, "Tony", "Stark", "tony@a.com", "123456", Department.Finance, "person2"));
+				.save(new Employee(2, "Tony", "Stark", "tony@a.com", "123456", Department.Finance));
 	}
 
 	@Test
@@ -75,8 +75,7 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void validEmployeeCreationTest() throws Exception {
 		// Step 1: Build the request to create a employee
-		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "123456", Department.Operations,
-				"Bruce");
+		Employee newEmployee = new Employee(3, "Bruce", "Banner", "bruce@a.com", "123456", Department.Operations);
 
 		// Step 2: Convert the Java object to JSON
 		String newUserAsJson = objectmapper.writeValueAsString(newEmployee);
@@ -99,7 +98,7 @@ class SimpleCrmApplicationTests {
 	@Test
 	public void invalidUserCreationTest() throws Exception {
 		// Step 1: Create an invalid employee
-		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "123456", Department.Marketing, "Banner");
+		Employee invalidEmployee = new Employee(4, "   ", "Banner", "  ", "123456", Department.Marketing);
 
 		// Step 2: Convert the Java object to JSON
 		String invalidEmployeeAsJson = objectmapper.writeValueAsString(invalidEmployee);

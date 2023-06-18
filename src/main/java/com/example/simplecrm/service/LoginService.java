@@ -4,11 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface LoginService {
-    int getUserId(String loginId);
+    void createLoginRecord(int employeeId);
 
-    void setUserId(String loginId);
-
-    Boolean login(String loginId, String password);
-
-    void logout();
+    int login(String username, String password);
 }
