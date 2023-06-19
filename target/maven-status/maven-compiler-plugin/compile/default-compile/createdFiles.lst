@@ -1,10 +1,10 @@
 com/example/simplecrm/controller/EmployeeController.class
 com/example/simplecrm/model/Employee.class
 com/example/simplecrm/service/UserRoleService.class
-com/example/simplecrm/lessonreferencefiles/GlobalExceptionHandler.class
 com/example/simplecrm/model/ExpensesClaim.class
-com/example/simplecrm/lessonreferencefiles/CustomerNotFoundException.class
+com/example/simplecrm/lessonreferencefiles/GlobalExceptionHandler.class
 com/example/simplecrm/lessonreferencefiles/InteractionController.class
+com/example/simplecrm/lessonreferencefiles/CustomerNotFoundException.class
 com/example/simplecrm/SimpleCrmApplication.class
 com/example/simplecrm/repository/UserRoleRepository.class
 com/example/simplecrm/controller/ExpensesClaimsController.class
@@ -19,8 +19,8 @@ com/example/simplecrm/repository/EmployeeRepository.class
 com/example/simplecrm/lessonreferencefiles/InteractionRepository.class
 com/example/simplecrm/model/Login.class
 com/example/simplecrm/model/Department.class
-com/example/simplecrm/lessonreferencefiles/InteractionService.class
 com/example/simplecrm/service/EmployeeService.class
+com/example/simplecrm/lessonreferencefiles/InteractionService.class
 com/example/simplecrm/service/ExpensesClaimService.class
 com/example/simplecrm/controller/UserRoleController.class
 com/example/simplecrm/model/UserRole.class
@@ -29,6 +29,7 @@ com/example/simplecrm/lessonreferencefiles/CustomerService.class
 com/example/simplecrm/model/Roles.class
 com/example/simplecrm/lessonreferencefiles/Interaction.class
 com/example/simplecrm/lessonreferencefiles/InteractionNotFoundException.class
+com/example/simplecrm/controller/HomePageController.class
 com/example/simplecrm/lessonreferencefiles/InteractionServiceImpl.class
 com/example/simplecrm/repository/ExpensesClaimRepository.class
 com/example/simplecrm/service/EmployeeServiceImpl.class
