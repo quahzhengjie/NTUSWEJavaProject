@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "login")
 public class Login {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -12,18 +13,15 @@ public class Login {
   @Column(name = "loginid")
   private String loginId;
 
+  @Column(name = "password") // Add this line
   private String password;
-
-  @Column(name = "jwt_token")
-  private String jwtToken;
 
   public Login() {
   }
 
-  public Login(String loginId, String password, String jwtToken) {
+  public Login(String loginId, String password) {
     this.loginId = loginId;
     this.password = password;
-    this.jwtToken = jwtToken;
   }
 
   public Long getId() {
@@ -48,13 +46,5 @@ public class Login {
 
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  public String getJwtToken() {
-    return jwtToken;
-  }
-
-  public void setJwtToken(String jwtToken) {
-    this.jwtToken = jwtToken;
   }
 }

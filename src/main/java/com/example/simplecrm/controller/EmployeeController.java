@@ -69,13 +69,12 @@ public class EmployeeController {
     return new ResponseEntity<>(HttpStatus.NO_CONTENT);
   }
 
-//Add userRole to employee
+  // Add userRole to employee
   @PostMapping("/{id}/userroles")
-  public ResponseEntity<UserRole> addUserRoleToEmployee(@PathVariable int id, @RequestBody UserRole userRole){
+  public ResponseEntity<UserRole> addUserRoleToEmployee(@PathVariable int id, @RequestBody UserRole userRole) {
     UserRole newUserRole = employeeService.addUserRoleToEmployee(id, userRole);
     return new ResponseEntity<>(newUserRole, HttpStatus.CREATED);
 
-
-}
+  }
 
 }
