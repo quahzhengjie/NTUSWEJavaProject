@@ -1,63 +1,25 @@
 package com.example.simplecrm.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.simplecrm.model.ExpensesClaim;
-import com.example.simplecrm.repository.ExpensesClaimRepository;
+import com.example.simplecrm.model.ExpenseStatus;
+import com.example.simplecrm.model.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
-@Service
-public class ExpensesClaimService {
+public interface ExpensesClaimService {
 
-  private final ExpensesClaimRepository expensesClaimRepository;
+  List<ExpensesClaim> getAllExpenses();
 
-  @Autowired
-  public ExpensesClaimService(ExpensesClaimRepository expensesClaimRepository) {
-    this.expensesClaimRepository = expensesClaimRepository;
-  }
+  Optional<ExpensesClaim> getExpenseById(Long expenseId);
 
-  public List<ExpensesClaim> getAllExpenses() {
-    return expensesClaimRepository.findAll();
-  }
+  ExpensesClaim createExpense(ExpensesClaim expense);
 
-  public ExpensesClaim getExpenseById(int id) {
-    return expensesClaimRepository.findById(id).orElse(null);
-  }
+  ExpensesClaim updateExpense(ExpensesClaim expense);
 
-  public ExpensesClaim createExpense(ExpensesClaim expense) {
-    return expensesClaimRepository.save(expense);
-  }
+  void deleteExpense(Long expenseId);
 
-  public ExpensesClaim updateExpense(int id, ExpensesClaim expense) {
-    ExpensesClaim existingExpense = expensesClaimRepository.findById(id).orElse(null);
-    if (existingExpense != null) {
-      // Update the properties of the existing expense with the new values
-      existingExpense.setCreatedDate(expense.getCreatedDate());
-      existingExpense.setAmount(expense.getAmount());
-      existingExpense.setApprovedBySupervisor(expense.getApprovedBySupervisor());
-      existingExpense.setApprovedDateTimeSupervisor(expense.getApprovedDateTimeSupervisor());
-      existingExpense.setApprovedByHOD(expense.getApprovedByHOD());
-      existingExpense.setApprovedDateTimeHOD(expense.getApprovedDateTimeHOD());
-      existingExpense.setCreatedBy(expense.getCreatedBy());
-      existingExpense.setTypeOfClaim(expense.getTypeOfClaim());
-      existingExpense.setRemarks(expense.getRemarks());
-      existingExpense.setPersonRejected(expense.getPersonRejected());
+  boolean updateExpenseStatus(Long expenseId, ExpenseStatus newStatus);
 
-      return expensesClaimRepository.save(existingExpense);
-    } else {
-      return null;
-    }
-  }
-
-  public boolean deleteExpense(int id) {
-    ExpensesClaim existingExpense = expensesClaimRepository.findById(id).orElse(null);
-    if (existingExpense != null) {
-      expensesClaimRepository.delete(existingExpense);
-      return true;
-    } else {
-      return false;
-    }
-  }
+  boolean updateExpenseApprovals(Long expenseId, Employee supervisor, Employee hod);
 }

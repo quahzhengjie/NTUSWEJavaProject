@@ -1,93 +1,86 @@
 package com.example.simplecrm.model;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "expenses_claims")
+@Table(name = "expense")
 public class ExpensesClaim {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "expense_id")
-  private int expenseId;
+  private Long expenseId;
 
-  @Column(name = "created_date")
-  private LocalDateTime createdDate;
+  @ManyToOne
+  @JoinColumn(name = "created_by")
+  private Employee createdBy;
 
-  private double amount;
+  @Column(name = "amount")
+  private BigDecimal amount;
 
-  @Column(name = "approved_by_supervisor")
-  private String approvedBySupervisor;
+  @Column(name = "category")
+  private String category;
+
+  @ManyToOne
+  @JoinColumn(name = "approved_by_supervisor")
+  private Employee approvedBySupervisor;
 
   @Column(name = "approved_date_time_supervisor")
   private LocalDateTime approvedDateTimeSupervisor;
 
-  @Column(name = "approved_by_hod")
-  private String approvedByHOD;
+  @ManyToOne
+  @JoinColumn(name = "approved_by_hod")
+  private Employee approvedByHod;
 
   @Column(name = "approved_date_time_hod")
-  private LocalDateTime approvedDateTimeHOD;
+  private LocalDateTime approvedDateTimeHod;
 
-  @Column(name = "created_by")
-  private Long createdBy;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status")
+  private ExpenseStatus status;
 
-  @Column(name = "type_of_claim")
-  private String typeOfClaim;
-
+  @Column(name = "remarks")
   private String remarks;
 
-  @Column(name = "person_rejected")
-  private String personRejected;
-
-  public ExpensesClaim() {
-  }
-
-  public ExpensesClaim(LocalDateTime createdDate, double amount, String approvedBySupervisor,
-      LocalDateTime approvedDateTimeSupervisor,
-      String approvedByHOD, LocalDateTime approvedDateTimeHOD, Long createdBy, String typeOfClaim, String remarks,
-      String personRejected) {
-    this.createdDate = createdDate;
-    this.amount = amount;
-    this.approvedBySupervisor = approvedBySupervisor;
-    this.approvedDateTimeSupervisor = approvedDateTimeSupervisor;
-    this.approvedByHOD = approvedByHOD;
-    this.approvedDateTimeHOD = approvedDateTimeHOD;
-    this.createdBy = createdBy;
-    this.typeOfClaim = typeOfClaim;
-    this.remarks = remarks;
-    this.personRejected = personRejected;
-  }
-
-  public int getExpenseId() {
+  public Long getExpenseId() {
     return expenseId;
   }
 
-  public void setExpenseId(int expenseId) {
+  public void setExpenseId(Long expenseId) {
     this.expenseId = expenseId;
   }
 
-  public LocalDateTime getCreatedDate() {
-    return createdDate;
+  public Employee getCreatedBy() {
+    return createdBy;
   }
 
-  public void setCreatedDate(LocalDateTime createdDate) {
-    this.createdDate = createdDate;
+  public void setCreatedBy(Employee createdBy) {
+    this.createdBy = createdBy;
   }
 
-  public double getAmount() {
+  public BigDecimal getAmount() {
     return amount;
   }
 
-  public void setAmount(double amount) {
+  public void setAmount(BigDecimal amount) {
     this.amount = amount;
   }
 
-  public String getApprovedBySupervisor() {
+  public String getCategory() {
+    return category;
+  }
+
+  public void setCategory(String category) {
+    this.category = category;
+  }
+
+  public Employee getApprovedBySupervisor() {
     return approvedBySupervisor;
   }
 
-  public void setApprovedBySupervisor(String approvedBySupervisor) {
+  public void setApprovedBySupervisor(Employee approvedBySupervisor) {
     this.approvedBySupervisor = approvedBySupervisor;
   }
 
@@ -99,36 +92,28 @@ public class ExpensesClaim {
     this.approvedDateTimeSupervisor = approvedDateTimeSupervisor;
   }
 
-  public String getApprovedByHOD() {
-    return approvedByHOD;
+  public Employee getApprovedByHod() {
+    return approvedByHod;
   }
 
-  public void setApprovedByHOD(String approvedByHOD) {
-    this.approvedByHOD = approvedByHOD;
+  public void setApprovedByHod(Employee approvedByHod) {
+    this.approvedByHod = approvedByHod;
   }
 
-  public LocalDateTime getApprovedDateTimeHOD() {
-    return approvedDateTimeHOD;
+  public LocalDateTime getApprovedDateTimeHod() {
+    return approvedDateTimeHod;
   }
 
-  public void setApprovedDateTimeHOD(LocalDateTime approvedDateTimeHOD) {
-    this.approvedDateTimeHOD = approvedDateTimeHOD;
+  public void setApprovedDateTimeHod(LocalDateTime approvedDateTimeHod) {
+    this.approvedDateTimeHod = approvedDateTimeHod;
   }
 
-  public Long getCreatedBy() {
-    return createdBy;
+  public ExpenseStatus getStatus() {
+    return status;
   }
 
-  public void setCreatedBy(Long createdBy) {
-    this.createdBy = createdBy;
-  }
-
-  public String getTypeOfClaim() {
-    return typeOfClaim;
-  }
-
-  public void setTypeOfClaim(String typeOfClaim) {
-    this.typeOfClaim = typeOfClaim;
+  public void setStatus(ExpenseStatus status) {
+    this.status = status;
   }
 
   public String getRemarks() {
@@ -139,11 +124,6 @@ public class ExpensesClaim {
     this.remarks = remarks;
   }
 
-  public String getPersonRejected() {
-    return personRejected;
-  }
+  // Constructors, getters, setters, and other methods
 
-  public void setPersonRejected(String personRejected) {
-    this.personRejected = personRejected;
-  }
 }
