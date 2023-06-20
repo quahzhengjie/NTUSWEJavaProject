@@ -16,12 +16,12 @@ import com.example.simplecrm.repository.UserRoleRepository;
 //import com.example.simplecrm.service.UserRoleService;
 
 @Service
-public class UserRoleServiceImpl implements UserRoleService{
+public class UserRoleServiceImpl implements UserRoleService {
 
-    //@Autowired
+    // @Autowired
     private UserRoleRepository userRoleRepository;
 
-    public UserRoleServiceImpl(UserRoleRepository userRoleRepository){
+    public UserRoleServiceImpl(UserRoleRepository userRoleRepository) {
         this.userRoleRepository = userRoleRepository;
 
     }
@@ -30,52 +30,50 @@ public class UserRoleServiceImpl implements UserRoleService{
     // private EmployeeRepository employeeRepository;
 
     // public UserRoleServiceImpl(UserRoleRepository userRepository){
-    //     this.userRoleRepository = userRepository;
-    // } 
+    // this.userRoleRepository = userRepository;
+    // }
 
-    //Create
+    // Create
     @Override
-    public UserRole createUserRole(UserRole userRole){
+    public UserRole createUserRole(UserRole userRole) {
         UserRole newUserRole = userRoleRepository.save(userRole);
         return newUserRole;
     }
 
-
-    ///Get One
+    /// Get One
     @Override
-    public UserRole getUserRole(int id){
+    public UserRole getUserRole(int id) {
         Optional<UserRole> foundUserRole = userRoleRepository.findById(id);
-        if(!foundUserRole.isPresent()){
+        if (!foundUserRole.isPresent()) {
             throw new UserRoleNotFoundException(id);
-        }return foundUserRole.get();
+        }
+        return foundUserRole.get();
     }
 
-
-    //Get All
+    // Get All
     @Override
-    public List<UserRole> getAllUserRoles(){
+    public List<UserRole> getAllUserRoles() {
         List<UserRole> allUserRoles = userRoleRepository.findAll();
         return allUserRoles;
     }
 
-    //Update
+    // Update
     @Override
-    public UserRole updateUserRole(int id, UserRole userRole){
+    public UserRole updateUserRole(int id, UserRole userRole) {
         Optional<UserRole> wrappedUserRole = userRoleRepository.findById(id);
 
-        if(!wrappedUserRole.isPresent()){
-          throw new UserRoleNotFoundException(id);  
-        }UserRole userRoleToUpdate = wrappedUserRole.get();
+        if (!wrappedUserRole.isPresent()) {
+            throw new UserRoleNotFoundException(id);
+        }
+        UserRole userRoleToUpdate = wrappedUserRole.get();
         userRoleToUpdate.setRoleName(userRole.getRoleName());
         return userRoleRepository.save(userRoleToUpdate);
     }
 
-
-    //Delete
+    // Delete
     @Override
-    public void deleteUserRole(int id){
+    public void deleteUserRole(int id) {
         userRoleRepository.deleteById(id);
     }
-
 
 }
