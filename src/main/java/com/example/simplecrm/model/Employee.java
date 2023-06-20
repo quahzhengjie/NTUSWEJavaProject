@@ -7,6 +7,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +22,11 @@ public class Employee {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private int id;
+
+  // Join to loginid
+  @OneToOne
+  @JoinColumn(name = "login_id")
+  private Login login;
 
   @Column(name = "first_name")
   @NotBlank(message = "First name is mandatory.")
@@ -90,6 +97,14 @@ public class Employee {
     this.email = email;
   }
 
+  public Login getLogin() {
+    return login;
+  }
+
+  public void setLogin(Login login) {
+    this.login = login;
+  }
+
   public String getContact() {
     return contact;
   }
@@ -108,13 +123,13 @@ public class Employee {
 
   // @Override
   // public String toString() {
-  //   return "User{" +
-  //       "id=" + id +
-  //       ", firstName='" + firstName + '\'' +
-  //       ", lastName='" + lastName + '\'' +
-  //       ", email='" + email + '\'' +
-  //       ", department='" + department + '\'' +
-  //       ", contact='" + contact + '\'' +
-  //       '}';
+  // return "User{" +
+  // "id=" + id +
+  // ", firstName='" + firstName + '\'' +
+  // ", lastName='" + lastName + '\'' +
+  // ", email='" + email + '\'' +
+  // ", department='" + department + '\'' +
+  // ", contact='" + contact + '\'' +
+  // '}';
   // }
 }

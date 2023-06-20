@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Registration</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center">Registration</h1>
+      <form id="registrationForm">
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="firstName"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            name="lastName"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="contact" class="form-label">Contact</label>
+          <input type="text" class="form-control" id="contact" name="contact" />
+        </div>
+        <div class="mb-3">
+          <label for="department" class="form-label">Department</label>
+          <select
+            class="form-control"
+            id="department"
+            name="department"
+            required
+          >
+            <option value="Operations">Operations</option>
+            <option value="Finance">Finance</option>
+            <option value="HR">HR</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="IT">IT</option>
+            <option value="Accounting">Accounting</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Handle form submission
+        $("#registrationForm").submit(function (event) {
+          event.preventDefault();
+          // Get the cookie value
+          var cookieValue = getCookie("loginCookie");
+          // Convert cookie value to integer
+          var loginId = parseInt(cookieValue);
+          // Prepare data object
+          var data = {
+            firstName: $("#firstName").val(),
+            lastName: $("#lastName").val(),
+            email: $("#email").val(),
+            contact: $("#contact").val(),
+            department: $("#department").val(),
+            login_id: loginId,
+          };
+          // Add cookie value to the request headers
+          $.ajaxSetup({
+            headers: {
+              "X-Cookie-Value": cookieValue,
+            },
+          });
+          // Send AJAX request to the server
+          $.ajax({
+            type: "POST",
+            url: "/employees",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function (response) {
+              // Handle success response
+              alert("Registration successful!");
+              // Reset the form
+              $("#registrationForm")[0].reset();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+              // Handle error response
+              alert("Registration failed. Please try again.");
+            },
+          });
+        });
+      });
+
+      // Function to retrieve cookie value by name
+      function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length === 2) {
+          return parts.pop().split(";").shift();
+        }
+      }
+    </script>
+  </body>
+</html>
