@@ -39,6 +39,8 @@
         $("#loginForm").submit(function (event) {
           event.preventDefault();
 
+          //We are initializing the variables to contain username and password
+          //Get Value of username/password
           var username = $("#username").val();
           var password = $("#password").val();
 
@@ -46,18 +48,21 @@
           $.ajax({
             url: "/api/login",
             type: "POST",
+            //This determines what datatype/data structure is sent to backend
             contentType: "application/json",
             data: JSON.stringify({
               loginId: username,
               password: password,
             }),
+            //OnSuccess
             success: function (response) {
               // Handle login success
               console.log(response);
               alert("Login successful");
-              // Redirect to the dashboard page
+              // Redirect to the dashboard page on success
               window.location.href = "/dashboard";
             },
+            //OnError
             error: function (error) {
               // Handle login error
               console.log(error);

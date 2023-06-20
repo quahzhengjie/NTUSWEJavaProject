@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="container">
-      <h1 class="text-center">Registration</h1>
+      <h1 class="text-center">Profile Update</h1>
       <form id="registrationForm">
         <div class="mb-3">
           <label for="firstName" class="form-label">First Name</label>
@@ -94,19 +94,23 @@
           });
           // Send AJAX request to the server
           $.ajax({
+            //POST METHOD USED
             type: "POST",
+            //TO API PATH "/employees"
             url: "/employees",
+            //The data from Line 81
             data: JSON.stringify(data),
+            //The type of response is JSON
             contentType: "application/json",
             success: function (response) {
               // Handle success response
-              alert("Registration successful!");
+              alert("Profile Update successful!");
               // Reset the form
               $("#registrationForm")[0].reset();
             },
             error: function (xhr, textStatus, errorThrown) {
               // Handle error response
-              alert("Registration failed. Please try again.");
+              alert("Profile Update failed. Please try again.");
             },
           });
         });
