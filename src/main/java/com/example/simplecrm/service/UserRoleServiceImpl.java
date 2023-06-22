@@ -67,6 +67,7 @@ public class UserRoleServiceImpl implements UserRoleService {
         }
         UserRole userRoleToUpdate = wrappedUserRole.get();
         userRoleToUpdate.setRoleName(userRole.getRoleName());
+        userRoleToUpdate.setUserRoleDepartment(userRole.getUserRoleDepartment());
         return userRoleRepository.save(userRoleToUpdate);
     }
 

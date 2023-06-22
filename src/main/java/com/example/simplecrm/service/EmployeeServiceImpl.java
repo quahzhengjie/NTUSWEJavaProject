@@ -78,23 +78,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     employeeRepository.deleteById(id);
   }
 
-
-
-      //add userRole to employee
-    @Override
-    public UserRole addUserRoleToEmployee(int id, UserRole userRole){
-        //Retrive Employee from Emplyee repo
-        Optional<Employee> wrappedSelectedEmployee = employeeRepository.findById(id);
-        if(!wrappedSelectedEmployee.isPresent()){
-            throw new EmployeeNotFoundException(id);
-        }
-        Employee selectedEmployee = wrappedSelectedEmployee.get();
-        //add department
-        userRole.setUserRoleDepartment(selectedEmployee.getDepartment());
-        //add employee to userRole
-        userRole.setEmployee(selectedEmployee);
-        //add userRole to DB
-        return userRoleRepository.save(userRole);
+  // add userRole to employee
+  @Override
+  public UserRole addUserRoleToEmployee(int id, UserRole userRole) {
+    // Retrive Employee from Emplyee repo
+    Optional<Employee> wrappedSelectedEmployee = employeeRepository.findById(id);
+    if (!wrappedSelectedEmployee.isPresent()) {
+      throw new EmployeeNotFoundException(id);
     }
+    Employee selectedEmployee = wrappedSelectedEmployee.get();
+    // add department
+    userRole.setUserRoleDepartment(selectedEmployee.getDepartment());
+    // add employee to userRole
+    userRole.setEmployee(selectedEmployee);
+    // add userRole to DB
+    return userRoleRepository.save(userRole);
+  }
 
 }
