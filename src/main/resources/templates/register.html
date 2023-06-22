@@ -63,57 +63,84 @@
             <option value="Accounting">Accounting</option>
           </select>
         </div>
+
+        <div class="form-group">
+          <label for="roleName">Role:</label>
+          <select class="form-control" id="roleName" name="roleName">
+            <option value="Admin">Admin</option>
+            <option value="Supervisor">Supervisor</option>
+            <option value="Employee">Employee</option>
+          </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Register</button>
       </form>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-      $(document).ready(function () {
+      document.addEventListener("DOMContentLoaded", function () {
         // Handle form submission
-        $("#registrationForm").submit(function (event) {
-          event.preventDefault();
-          // Get the cookie value
-          var cookieValue = getCookie("loginCookie");
-          // Convert cookie value to integer
-          var loginId = parseInt(cookieValue);
-          // Prepare data object
-          var data = {
-            firstName: $("#firstName").val(),
-            lastName: $("#lastName").val(),
-            email: $("#email").val(),
-            contact: $("#contact").val(),
-            department: $("#department").val(),
-            login_id: loginId,
-          };
-          // Add cookie value to the request headers
-          $.ajaxSetup({
-            headers: {
-              "X-Cookie-Value": cookieValue,
-            },
+        document
+          .getElementById("registrationForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            // Get the cookie value
+            var cookieValue = getCookie("loginCookie");
+            // Convert cookie value to integer
+            var loginId = parseInt(cookieValue);
+            // To update userRole
+            const roleName = document.getElementById("roleName").value;
+
+            // Prepare data object for employee PUT request
+            var data = {
+              firstName: document.getElementById("firstName").value,
+              lastName: document.getElementById("lastName").value,
+              email: document.getElementById("email").value,
+              contact: document.getElementById("contact").value,
+              department: document.getElementById("department").value,
+            };
+            // Add cookie value to the request headers
+            axios.defaults.headers.common["X-Cookie-Value"] = cookieValue;
+            // Send Axios request to update employee
+            axios
+              .put(`/employees/${loginId}`, JSON.stringify(data), {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+              })
+              .then(function (response) {
+                // Handle success response for employee update
+                alert("Profile Update successful!");
+                // Prepare data object for userRole PUT request
+                const userRoleData = {
+                  roleName: roleName,
+                };
+                // Send Axios request to update user role
+                axios
+                  .put(`/userroles/${loginId}`, JSON.stringify(userRoleData), {
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  })
+                  .then(function (response) {
+                    // Handle success response for user role update
+                    alert("User role and department updated successfully.");
+                    // Reset the form
+                    document.getElementById("registrationForm").reset();
+                  })
+                  .catch(function (error) {
+                    // Handle error response for user role update
+                    alert("Error updating user role and department.");
+                    console.error(error);
+                  });
+              })
+              .catch(function (error) {
+                // Handle error response for employee update
+                alert("Profile Update failed. Please try again.");
+                console.error(error);
+              });
           });
-          // Send AJAX request to the server
-          $.ajax({
-            //POST METHOD USED
-            type: "POST",
-            //TO API PATH "/employees"
-            url: "/employees",
-            //The data from Line 81
-            data: JSON.stringify(data),
-            //The type of response is JSON
-            contentType: "application/json",
-            success: function (response) {
-              // Handle success response
-              alert("Profile Update successful!");
-              // Reset the form
-              $("#registrationForm")[0].reset();
-            },
-            error: function (xhr, textStatus, errorThrown) {
-              // Handle error response
-              alert("Profile Update failed. Please try again.");
-            },
-          });
-        });
       });
 
       // Function to retrieve cookie value by name
