@@ -35,4 +35,9 @@ public class VariousPagesController {
   public String register() {
     return "register"; // Return the name of your front-end page (without the extension)
   }
+
+  @GetMapping("/claimdetails")
+  public String expenseclaimdetails() {
+    return "expenseclaimdetails"; // Return the name of your front-end page (without the extension)
+  }
 }

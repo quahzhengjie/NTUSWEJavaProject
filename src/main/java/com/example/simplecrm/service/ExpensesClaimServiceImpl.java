@@ -26,12 +26,14 @@ public class ExpensesClaimServiceImpl implements ExpensesClaimService {
     return expensesClaimRepository.findAll();
   }
 
+  // expense by id
   @Override
   public Optional<ExpensesClaim> getExpenseById(Long expenseId) {
     // Retrieve an expense by its ID from the repository
     return expensesClaimRepository.findById(expenseId);
   }
 
+  // createexpense, log the id of requested
   @Override
   public ExpensesClaim createExpense(ExpensesClaim expense) {
     // Save a new expense to the repository

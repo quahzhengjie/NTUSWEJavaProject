@@ -21,50 +21,47 @@ import com.example.simplecrm.service.UserRoleService;
 
 @RestController
 @RequestMapping("/userroles")
-public class UserRoleController{
+public class UserRoleController {
 
     @Autowired
     private UserRoleService userRoleService;
 
-    //Create
+    // Create
     @PostMapping("")
-    public ResponseEntity<UserRole> createUserRole(@Valid @RequestBody UserRole userRole){
+    public ResponseEntity<UserRole> createUserRole(@Valid @RequestBody UserRole userRole) {
 
         UserRole newUserRole = userRoleService.createUserRole(userRole);
         return new ResponseEntity<UserRole>(newUserRole, HttpStatus.CREATED);
-        
+
     }
 
-
-    //Get All Users
+    // Get All Users
     @GetMapping("")
-    public ResponseEntity<List<UserRole>> getAllUserRoles(){
+    public ResponseEntity<List<UserRole>> getAllUserRoles() {
         List<UserRole> allUserRoles = userRoleService.getAllUserRoles();
         return new ResponseEntity<>(allUserRoles, HttpStatus.OK);
 
     }
-    
-    //Get User
+
+    // Get User
     @GetMapping("/{id}")
-    public ResponseEntity<UserRole> getUserRole(@PathVariable int id){
+    public ResponseEntity<UserRole> getUserRole(@PathVariable int id) {
         UserRole foundUserRole = userRoleService.getUserRole(id);
         return new ResponseEntity<>(foundUserRole, HttpStatus.OK);
     }
 
-    //Update
+    // Update
     @PutMapping("/{id}")
-    public ResponseEntity<UserRole> updateUserRole(@PathVariable int id, @RequestBody UserRole userRole){
+    public ResponseEntity<UserRole> updateUserRole(@PathVariable int id, @RequestBody UserRole userRole) {
         UserRole updatedUserRole = userRoleService.updateUserRole(id, userRole);
         return new ResponseEntity<>(updatedUserRole, HttpStatus.OK);
     }
 
-    //Delete
+    // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable int id){
+    public ResponseEntity<HttpStatus> deleteUserRole(@PathVariable int id) {
         userRoleService.deleteUserRole(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }
