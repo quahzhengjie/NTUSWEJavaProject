@@ -48,14 +48,14 @@
 
     <main class="container mt-5">
       <h1>Expense Claim Application</h1>
-      <form>
+      <form id="expenseForm">
         <div class="mb-3">
           <label for="expenseDate" class="form-label">Expense Date</label>
           <input type="date" class="form-control" id="expenseDate" required />
         </div>
         <div class="mb-3">
-          <label for="expenseType" class="form-label">Expense Type</label>
-          <select class="form-select" id="expenseType" required>
+          <label for="category" class="form-label">Expense Type</label>
+          <select class="form-select" id="category" required>
             <option value="">Select an Expense Type</option>
             <option value="meal">Meal</option>
             <option value="transportation">Transportation</option>
@@ -83,6 +83,18 @@
             required
           ></textarea>
         </div>
+        <div class="mb-3">
+          <label for="expenseStatus" class="form-label">Expense Status</label>
+          <select class="form-select" id="expenseStatus" required>
+            <option value="">Select an Expense Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="APPROVED_BY_SUPERVISOR">
+              Approved by Supervisor
+            </option>
+            <option value="APPROVED_BY_HOD">Approved by HOD</option>
+            <option value="REJECTED">Rejected</option>
+          </select>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </main>
@@ -94,5 +106,36 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const form = document.getElementById("expenseForm");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const expense = {
+          amount: document.getElementById("expenseAmount").value,
+          category: document.getElementById("category").value,
+          status: document.getElementById("expenseStatus").value,
+          remarks: document.getElementById("expenseDescription").value,
+          createdDate: new Date(),
+        };
+
+        axios
+          .post("/expenses", expense)
+          .then((response) => {
+            console.log("Expense application submitted:", response.data);
+            // Display success message
+            alert("Expense application submitted successfully.");
+            // Redirect to dashboard
+            window.location.href = "/dashboard";
+          })
+          .catch((error) => {
+            console.error("Error submitting expense application:", error);
+            // Display error message
+            alert("Failed to submit expense application.");
+          });
+      });
+    </script>
   </body>
 </html>

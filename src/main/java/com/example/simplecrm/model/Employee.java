@@ -28,6 +28,10 @@ public class Employee {
   @JoinColumn(name = "login_id")
   private Login login;
 
+  // Relationship to UserRole
+  @OneToOne(mappedBy = "idEmployee") // the 'idEmployee' field in UserRole
+  private UserRole userRole;
+
   @Column(name = "first_name")
   @NotBlank(message = "First name is mandatory.")
   @Size(min = 2, max = 15, message = "First name must be between 2 and 15 characters.")

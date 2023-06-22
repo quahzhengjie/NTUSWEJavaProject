@@ -2,7 +2,7 @@ package com.example.simplecrm.model;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "expense")
@@ -27,15 +27,9 @@ public class ExpensesClaim {
   @JoinColumn(name = "approved_by_supervisor")
   private Employee approvedBySupervisor;
 
-  @Column(name = "approved_date_time_supervisor")
-  private LocalDateTime approvedDateTimeSupervisor;
-
   @ManyToOne
   @JoinColumn(name = "approved_by_hod")
   private Employee approvedByHod;
-
-  @Column(name = "approved_date_time_hod")
-  private LocalDateTime approvedDateTimeHod;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
@@ -43,6 +37,9 @@ public class ExpensesClaim {
 
   @Column(name = "remarks")
   private String remarks;
+
+  @Column(name = "created_date")
+  private LocalDate createdDate;
 
   public Long getExpenseId() {
     return expenseId;
@@ -84,28 +81,12 @@ public class ExpensesClaim {
     this.approvedBySupervisor = approvedBySupervisor;
   }
 
-  public LocalDateTime getApprovedDateTimeSupervisor() {
-    return approvedDateTimeSupervisor;
-  }
-
-  public void setApprovedDateTimeSupervisor(LocalDateTime approvedDateTimeSupervisor) {
-    this.approvedDateTimeSupervisor = approvedDateTimeSupervisor;
-  }
-
   public Employee getApprovedByHod() {
     return approvedByHod;
   }
 
   public void setApprovedByHod(Employee approvedByHod) {
     this.approvedByHod = approvedByHod;
-  }
-
-  public LocalDateTime getApprovedDateTimeHod() {
-    return approvedDateTimeHod;
-  }
-
-  public void setApprovedDateTimeHod(LocalDateTime approvedDateTimeHod) {
-    this.approvedDateTimeHod = approvedDateTimeHod;
   }
 
   public ExpenseStatus getStatus() {
@@ -122,6 +103,14 @@ public class ExpensesClaim {
 
   public void setRemarks(String remarks) {
     this.remarks = remarks;
+  }
+
+  public LocalDate getCreatedDate() {
+    return createdDate;
+  }
+
+  public void setCreatedDate(LocalDate createdDate) {
+    this.createdDate = createdDate;
   }
 
   // Constructors, getters, setters, and other methods

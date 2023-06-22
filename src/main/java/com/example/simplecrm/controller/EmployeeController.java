@@ -59,7 +59,6 @@ public class EmployeeController {
   public ResponseEntity<Employee> updateUser(@PathVariable int id, @RequestBody Employee employee) {
     Employee updatedEmployee = employeeService.updateEmployee(id, employee);
     return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
-
   }
 
   // 4. DELETE

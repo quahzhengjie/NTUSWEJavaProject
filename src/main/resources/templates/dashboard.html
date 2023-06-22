@@ -1,99 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
-</head>
-<body>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-        <a class="navbar-brand" href="/">Home</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/application">Apply for Claim</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/dashboard">Overview</a>
-            </li>
-          </ul>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+          <a class="navbar-brand" href="/">Home</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/application">Apply for Claim</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/dashboard"
+                  >Overview</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="container mt-5">
+      <h1>Dashboard</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <h2>User Profile</h2>
+          <table class="table">
+            <tbody id="profileTableBody">
+              <!-- Profile details will be dynamically added here -->
+            </tbody>
+          </table>
         </div>
       </div>
-    </nav>
-  </header>
-
-  <main class="container mt-5">
-    <h1>Dashboard</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <h2>User Profile</h2>
-        <ul class="list-group">
-          <li class="list-group-item"><strong>Name:</strong> John Doe</li>
-          <li class="list-group-item"><strong>Email:</strong> john.doe@example.com</li>
-          <li class="list-group-item"><strong>Role:</strong> Employee</li>
-        </ul>
-      </div>
-      <div class="col-md-6">
-        <h2>Pending Claims</h2>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Expense ID</th>
-              <th>Created Date</th>
-              <th>Amount</th>
-              <th>Approved By Supervisor</th>
-              <th>Approved Date/Time (Supervisor)</th>
-              <th>Approved By HOD</th>
-              <th>Approved Date/Time (HOD)</th>
-              <th>Created By</th>
-              <th>Type of Claim</th>
-              <th>Remarks</th>
-              <th>Person Rejected</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Generating table rows dynamically -->
-            <c:forEach items="${claims}" var="claim">
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h2>All Expenses</h2>
+          <table class="table table-striped">
+            <thead>
               <tr>
-                <td>${claim.expenseId}</td>
-                <td>${claim.createdDate}</td>
-                <td>${claim.amount}</td>
-                <td>${claim.approvedBySupervisor}</td>
-                <td>${claim.approvedDateTimeSupervisor}</td>
-                <td>${claim.approvedByHOD}</td>
-                <td>${claim.approvedDateTimeHOD}</td>
-                <td>${claim.createdBy}</td>
-                <td>${claim.typeOfClaim}</td>
-                <td>${claim.remarks}</td>
-                <td>${claim.personRejected}</td>
-                      </tbody>
-        </table>
+                <th>Expense ID</th>
+                <th>Created Date</th>
+                <th>Amount</th>
+                <th>Approved By Supervisor</th>
+                <th>Approved By HOD</th>
+                <th>Created By</th>
+                <th>Type of Claim</th>
+                <th>Remarks</th>
+                <th>Person Rejected</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="allExpensesTableBody">
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-  </main>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h2>Pending Expenses</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Expense ID</th>
+                <th>Created Date</th>
+                <th>Amount</th>
+                <th>Approved By Supervisor</th>
+                <th>Approved By HOD</th>
+                <th>Created By</th>
+                <th>Type of Claim</th>
+                <th>Remarks</th>
+                <th>Person Rejected</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="pendingExpensesTableBody">
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h2>Expenses Approved by Supervisor</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Expense ID</th>
+                <th>Created Date</th>
+                <th>Amount</th>
+                <th>Approved By Supervisor</th>
+                <th>Approved By HOD</th>
+                <th>Created By</th>
+                <th>Type of Claim</th>
+                <th>Remarks</th>
+                <th>Person Rejected</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="approvedBySupervisorExpensesTableBody">
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h2>Expenses Approved by HOD</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Expense ID</th>
+                <th>Created Date</th>
+                <th>Amount</th>
+                <th>Approved By Supervisor</th>
+                <th>Approved By HOD</th>
+                <th>Created By</th>
+                <th>Type of Claim</th>
+                <th>Remarks</th>
+                <th>Person Rejected</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="approvedByHodExpensesTableBody">
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row mt-5">
+        <div class="col-md-12">
+          <h2>Rejected Expenses</h2>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Expense ID</th>
+                <th>Created Date</th>
+                <th>Amount</th>
+                <th>Approved By Supervisor</th>
+                <th>Approved By HOD</th>
+                <th>Created By</th>
+                <th>Type of Claim</th>
+                <th>Remarks</th>
+                <th>Person Rejected</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rejectedExpensesTableBody">
+              <!-- Table rows will be dynamically added here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
 
-  <footer class="bg-light py-3 mt-5">
-    <div class="container text-center">
-      <p>&copy; 2023 My Website. All rights reserved.</p>
-    </div>
-  </footer>
+    <footer class="bg-light py-3 mt-5">
+      <div class="container text-center">
+        <p>&copy; 2023 My Website. All rights reserved.</p>
+      </div>
+    </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      // Function to get the value of a cookie by its name
+
+      // Function to get the value of a cookie by its name
+      function getCookieValue(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(";").shift();
+      }
+
+      // Get the employee ID from the login cookie
+      const cookieValue = getCookieValue("loginCookie");
+      console.log(cookieValue);
+      const employeeId = cookieValue;
+
+      if (employeeId) {
+        // Make a GET request to fetch the employee profile
+        axios
+          .get(`/employees/${employeeId}`)
+          .then((response) => {
+            const employee = response.data;
+            const profileTableBody =
+              document.getElementById("profileTableBody");
+
+            // Fill the profile table with the employee details
+            profileTableBody.innerHTML = `
+              <tr>
+                <th scope="row">ID</th>
+                <td>${employee.id}</td>
+              </tr>
+              <tr>
+                <th scope="row">First Name</th>
+                <td>${employee.login.loginId}</td>
+              </tr>
+              <tr>
+                <th scope="row">Last Name</th>
+                <td>${employee.lastName}</td>
+              </tr>
+              <tr>
+                <th scope="row">Email</th>
+                <td>${employee.email}</td>
+              </tr>
+              <tr>
+                <th scope="row">Contact</th>
+                <td>${employee.contact}</td>
+              </tr>
+              <tr>
+                <th scope="row">Department</th>
+                <td>${employee.department}</td>
+              </tr>
+            `;
+          })
+          .catch((error) => {
+            console.error("Error fetching employee profile:", error);
+          });
+      } else {
+        console.log("Employee ID is not available in the cookie.");
+      }
+
+      // Make a GET request to fetch all expenses
+      axios
+        .get("/expenses")
+        .then((response) => {
+          const expenses = response.data;
+          const allExpensesTableBody = document.getElementById(
+            "allExpensesTableBody"
+          );
+
+          // Iterate through the expenses and create table rows
+          expenses.forEach((expense) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td><a href="http://localhost:8080/claimdetails?id=${expense.expenseId}">${expense.expenseId}</a></td>
+              <td>${expense.createdDate}</td>
+              <td>${expense.amount}</td>
+              <td>${expense.approvedBySupervisor}</td>
+              <td>${expense.approvedByHOD}</td>
+              <td>${expense.createdBy}</td>
+              <td>${expense.category}</td>
+              <td>${expense.remarks}</td>
+              <td>${expense.personRejected}</td>
+              <td>${expense.status}</td>
+            `;
+
+            // Append the row to the all expenses table body
+            allExpensesTableBody.appendChild(row);
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching expenses:", error);
+        });
+
+      // Make a GET request to fetch all expenses
+      axios
+        .get("/expenses")
+        .then((response) => {
+          const expenses = response.data;
+          const allExpensesTableBody = document.getElementById(
+            "allExpensesTableBody"
+          );
+          const pendingExpensesTableBody = document.getElementById(
+            "pendingExpensesTableBody"
+          );
+          const approvedBySupervisorExpensesTableBody = document.getElementById(
+            "approvedBySupervisorExpensesTableBody"
+          );
+          const approvedByHodExpensesTableBody = document.getElementById(
+            "approvedByHodExpensesTableBody"
+          );
+          const rejectedExpensesTableBody = document.getElementById(
+            "rejectedExpensesTableBody"
+          );
+
+          // Iterate through the expenses and create table rows for each status
+          expenses.forEach((expense) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td><a href="http://localhost:8080/claimdetails?id=${expense.expenseId}">${expense.expenseId}</a></td>
+              <td>${expense.createdDate}</td>
+              <td>${expense.amount}</td>
+              <td>${expense.approvedBySupervisor}</td>
+              <td>${expense.approvedByHOD}</td>
+              <td>${expense.createdBy}</td>
+              <td>${expense.category}</td>
+              <td>${expense.remarks}</td>
+              <td>${expense.personRejected}</td>
+              <td>${expense.status}</td>
+            `;
+
+            // Append the row to the corresponding table body based on the expense status
+            switch (expense.status) {
+              case "PENDING":
+                pendingExpensesTableBody.appendChild(row);
+                break;
+              case "APPROVED_BY_SUPERVISOR":
+                approvedBySupervisorExpensesTableBody.appendChild(row);
+                break;
+              case "APPROVED_BY_HOD":
+                approvedByHodExpensesTableBody.appendChild(row);
+                break;
+              case "REJECTED":
+                rejectedExpensesTableBody.appendChild(row);
+                break;
+              default:
+                allExpensesTableBody.appendChild(row);
+                break;
+            }
+          });
+        })
+        .catch((error) => {
+          console.error("Error fetching expenses:", error);
+        });
+    </script>
+  </body>
 </html>

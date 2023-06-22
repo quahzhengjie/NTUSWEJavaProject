@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Column;
 
-
-
 @Entity
 @Table(name = "user_roles")
 public class UserRole {
@@ -31,9 +29,9 @@ public class UserRole {
   @Enumerated(EnumType.STRING)
   private Roles roleName;
 
-  
   // @OneToOne(optional = true)
-  // @JoinColumn(name = "employee_department", referencedColumnName = "department")
+  // @JoinColumn(name = "employee_department", referencedColumnName =
+  // "department")
   // private Employee departmentEmployee;
   @Column(name = " department")
   private Enum userRoleDepartment;
@@ -43,9 +41,9 @@ public class UserRole {
 
   public UserRole(int id, Roles roleName) {
     this.id = id;
-    //this.uid = uid;
+    // this.uid = uid;
     this.roleName = roleName;
-    //this.department = department;
+    // this.department = department;
   }
 
   public int getId() {
@@ -57,11 +55,11 @@ public class UserRole {
   }
 
   // public int getUid() {
-  //   return uid;
+  // return uid;
   // }
 
   // public void setUid(int uid) {
-  //   this.uid = uid;
+  // this.uid = uid;
   // }
 
   public Roles getRoleName() {
@@ -73,16 +71,12 @@ public class UserRole {
   }
 
   // public String getDepartment() {
-  //   return department;
+  // return department;
   // }
 
   // public void setDepartment(String department) {
-  //   this.department = department;
+  // this.department = department;
   // }
-
-  
-
-  
 
   @Override
   public String toString() {
@@ -92,29 +86,20 @@ public class UserRole {
         '}';
   }
 
+  public Employee getEmployee() {
+    return this.idEmployee;
+  }
 
+  public void setEmployee(Employee idEmployee) {
+    this.idEmployee = idEmployee;
+  }
 
+  public Enum getUserRoleDepartment() {
+    return userRoleDepartment;
+  }
 
-
-public Employee getEmployee(){
-  return this.idEmployee;
-}
-
-
-public void setEmployee(Employee idEmployee){
-  this.idEmployee = idEmployee;
-}
-
-public Enum getUserRoleDepartment() {
-  return userRoleDepartment;
-}
-
-public void setUserRoleDepartment(Enum userRoledepartment) {
-  this.userRoleDepartment = userRoledepartment;
-}
-
-
-
-
+  public void setUserRoleDepartment(Enum userRoledepartment) {
+    this.userRoleDepartment = userRoledepartment;
+  }
 
 }
