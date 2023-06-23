@@ -295,17 +295,9 @@
         .get(`/userroles/${employeeId}`)
         .then((roleResponse) => {
           const { roleName } = roleResponse.data;
-
-          let url;
-          if (roleName === "Supervisor") {
-            url = "/expenses";
-          } else {
-            url = `/expenses/createdBy/${employeeId}`;
-          }
-
-          // Make a GET request to fetch all expenses or expenses created by the user
+          // Make a GET request to fetch all expenses
           axios
-            .get(url)
+            .get(`/expenses/createdBy/${employeeId}`)
             .then((response) => {
               const expenses = response.data;
               const allExpensesTableBody = document.getElementById(
@@ -329,13 +321,13 @@
                 }
 
                 row.innerHTML = `
-            ${expenseIdCell}
-            <td>${formatDate(expense.createdDate)}</td>
-            <td>${expense.amount}</td>
-            <td>${expense.category}</td>
-            <td>${expense.remarks}</td>
-            <td>${expense.status}</td>
-          `;
+                  ${expenseIdCell}
+                  <td>${formatDate(expense.createdDate)}</td>
+                  <td>${expense.amount}</td>
+                  <td>${expense.category}</td>
+                  <td>${expense.remarks}</td>
+                  <td>${expense.status}</td>
+                `;
 
                 allExpensesTableBody.appendChild(row);
                 allExpensesSum += expense.amount;

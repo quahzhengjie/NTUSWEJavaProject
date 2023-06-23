@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//For Cookie to FE
+//
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
