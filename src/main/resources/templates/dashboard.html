@@ -215,7 +215,19 @@
 
       // Call the renderNavbar function to render the navbar based on login status
       renderNavbar();
+      //
 
+      let roleName = "";
+      axios
+        .get(`/userroles/${employeeId}`) // Replace this URL with your actual API endpoint
+        .then((roleResponse) => {
+          const { roleName } = roleResponse.data;
+          console.log("Role Name:", roleName); // Display the fetched roleName
+        })
+        .catch((error) => {
+          console.error("Error fetching role name:", error);
+        });
+      //
       if (employeeId) {
         // Make a GET request to fetch the employee profile
         axios
@@ -278,90 +290,60 @@
         return `${year}-${month}-${day}`;
       }
 
-      // Make a GET request to fetch all expenses
+      // Make a GET request to fetch the user role
       axios
-        .get(`/expenses/createdBy/${employeeId}`)
-        .then((response) => {
-          const expenses = response.data;
-          const allExpensesTableBody = document.getElementById(
-            "allExpensesTableBody"
-          );
-          const pendingExpensesTableBody = document.getElementById(
-            "pendingExpensesTableBody"
-          );
-          const approvedBySupervisorExpensesTableBody = document.getElementById(
-            "approvedBySupervisorExpensesTableBody"
-          );
-          // const approvedByHodExpensesTableBody = document.getElementById("approvedByHodExpensesTableBody");
-          const rejectedExpensesTableBody = document.getElementById(
-            "rejectedExpensesTableBody"
-          );
+        .get(`/userroles/${employeeId}`)
+        .then((roleResponse) => {
+          const { roleName } = roleResponse.data;
+          // Make a GET request to fetch all expenses
+          axios
+            .get(`/expenses/createdBy/${employeeId}`)
+            .then((response) => {
+              const expenses = response.data;
+              const allExpensesTableBody = document.getElementById(
+                "allExpensesTableBody"
+              );
 
-          // Initialize sum variables
-          let allExpensesSum = 0;
-          let pendingExpensesSum = 0;
-          let approvedBySupervisorExpensesSum = 0;
-          // let approvedByHodExpensesSum = 0;
-          let rejectedExpensesSum = 0;
+              // Initialize sum variable
+              let allExpensesSum = 0;
 
-          // Iterate through the expenses and create table rows for each status
-          expenses.forEach((expense) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-              <td><a href="http://localhost:8080/approveclaimdetails?id=${
-                expense.expenseId
-              }">${expense.expenseId}</a></td>
-              <td>${formatDate(expense.createdDate)}</td>
-              <td>${expense.amount}</td>
-              <td>${expense.category}</td>
-              <td>${expense.remarks}</td>
-              <td>${expense.status}</td>
-            `;
+              // Iterate through the expenses and create table rows for each expense
+              expenses.forEach((expense) => {
+                const row = document.createElement("tr");
 
-            // Add row and sum to all expenses regardless of the status
-            allExpensesTableBody.appendChild(row.cloneNode(true)); // Clone the row
-            allExpensesSum += expense.amount;
+                let expenseIdCell;
+                if (roleName === "Supervisor") {
+                  // Render a link if the user role is "Supervisor"
+                  expenseIdCell = `<td><a href="http://localhost:8080/approveclaimdetails?id=${expense.expenseId}">${expense.expenseId}</a></td>`;
+                } else {
+                  // No link if the user role is not "Supervisor"
+                  expenseIdCell = `<td>${expense.expenseId}</td>`;
+                }
 
-            // Calculate the sum based on the expense status
-            switch (expense.status) {
-              case "PENDING":
-                pendingExpensesTableBody.appendChild(row);
-                pendingExpensesSum += expense.amount;
-                break;
-              case "APPROVED_BY_SUPERVISOR":
-                approvedBySupervisorExpensesTableBody.appendChild(row);
-                approvedBySupervisorExpensesSum += expense.amount;
-                break;
-              case "APPROVED_BY_HOD":
-                // approvedByHodExpensesTableBody.appendChild(row);
-                // approvedByHodExpensesSum += expense.amount;
-                break;
-              case "REJECTED":
-                rejectedExpensesTableBody.appendChild(row);
-                rejectedExpensesSum += expense.amount;
-                break;
-              default:
-                break;
-            }
-          });
+                row.innerHTML = `
+                  ${expenseIdCell}
+                  <td>${formatDate(expense.createdDate)}</td>
+                  <td>${expense.amount}</td>
+                  <td>${expense.category}</td>
+                  <td>${expense.remarks}</td>
+                  <td>${expense.status}</td>
+                `;
 
-          // Display the sums above the expense tables
-          document.getElementById(
-            "allExpensesSum"
-          ).textContent = `Total Amount: ${allExpensesSum}`;
-          document.getElementById(
-            "pendingExpensesSum"
-          ).textContent = `Total Amount: ${pendingExpensesSum}`;
-          document.getElementById(
-            "approvedBySupervisorExpensesSum"
-          ).textContent = `Total Amount: ${approvedBySupervisorExpensesSum}`;
-          // document.getElementById("approvedByHodExpensesSum").textContent = `Total Amount: ${approvedByHodExpensesSum}`;
-          document.getElementById(
-            "rejectedExpensesSum"
-          ).textContent = `Total Amount: ${rejectedExpensesSum}`;
+                allExpensesTableBody.appendChild(row);
+                allExpensesSum += expense.amount;
+              });
+
+              // Display the total amount for all expenses
+              document.getElementById(
+                "allExpensesSum"
+              ).textContent = `Total Amount: ${allExpensesSum}`;
+            })
+            .catch((error) => {
+              console.error("Error fetching expenses:", error);
+            });
         })
         .catch((error) => {
-          console.error("Error fetching expenses:", error);
+          console.error("Error fetching role name:", error);
         });
     </script>
   </body>
