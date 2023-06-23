@@ -1,6 +1,8 @@
-# Simple CRM Application
+# Simple Expense Tracker Application
 
 The Simple CRM Application is a basic customer relationship management system designed to manage employee records. It provides functionalities to create, retrieve, update, and delete employee information.
+
+On top of that it is used to track, and approve of expenses.
 
 ## Features
 
