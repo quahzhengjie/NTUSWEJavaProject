@@ -36,8 +36,13 @@ public class VariousPagesController {
     return "register"; // Return the name of your front-end page (without the extension)
   }
 
-  @GetMapping("/claimdetails")
-  public String expenseclaimdetails() {
-    return "expenseclaimdetails"; // Return the name of your front-end page (without the extension)
+  @GetMapping("/createaccount")
+  public String crreateaccount() {
+    return "createaccount"; // Return the name of your front-end page (without the extension)
+  }
+
+  @GetMapping("/approveclaimdetails")
+  public String approveexpenseclaimdetails() {
+    return "approveexpenseclaimdetails"; // Return the name of your front-end page (without the extension)
   }
 }

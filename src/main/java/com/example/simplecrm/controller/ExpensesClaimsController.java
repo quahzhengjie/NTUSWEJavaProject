@@ -2,8 +2,6 @@ package com.example.simplecrm.controller;
 
 import com.example.simplecrm.model.ExpensesClaim;
 import com.example.simplecrm.model.ExpenseStatus;
-import com.example.simplecrm.model.Employee;
-import com.example.simplecrm.model.UserRole;
 import com.example.simplecrm.service.ExpensesClaimService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +22,19 @@ public class ExpensesClaimsController {
     this.expensesClaimService = expensesClaimService;
   }
 
-  //
+  /**
+   * Retrieves expenses by createdById.
+   *
+   * @param createdById ID of the creator to filter expenses
+   * @return List of expenses if found
+   */
+
+  @GetMapping("/createdBy/{createdById}")
+  public ResponseEntity<List<ExpensesClaim>> getExpensesByCreatedBy(@PathVariable int createdById) {
+    List<ExpensesClaim> expenses = expensesClaimService.getExpensesByCreatedBy(createdById);
+    return ResponseEntity.ok(expenses);
+  }
+
   /**
    * Creates a new expense.
    *
@@ -40,7 +50,7 @@ public class ExpensesClaimsController {
   /**
    * Retrieves all expenses.
    *
-   * @return List of expenses
+   * @return List of all expenses
    */
   @GetMapping
   public ResponseEntity<List<ExpensesClaim>> getAllExpenses() {
@@ -78,13 +88,12 @@ public class ExpensesClaimsController {
       ExpensesClaim updatedExpense = existingExpense.get();
       updatedExpense.setAmount(expense.getAmount());
       updatedExpense.setCategory(expense.getCategory());
-      updatedExpense.setApprovedBySupervisor(expense.getApprovedBySupervisor());
-
-      updatedExpense.setApprovedByHod(expense.getApprovedByHod());
-
       updatedExpense.setStatus(expense.getStatus());
       updatedExpense.setRemarks(expense.getRemarks());
-      // Set other properties as needed
+      updatedExpense.setCreatedById(expense.getCreatedById());
+      updatedExpense.setCreatedByName(expense.getCreatedByName());
+      updatedExpense.setSupervisorId(expense.getSupervisorId());
+      updatedExpense.setSupervisorName(expense.getSupervisorName());
 
       ExpensesClaim savedExpense = expensesClaimService.updateExpense(updatedExpense);
       return ResponseEntity.ok(savedExpense);
@@ -112,6 +121,10 @@ public class ExpensesClaimsController {
 
   /**
    * Updates the status of an expense.
+   *
+   * @param expenseId ID of the expense to update status
+   * @param newStatus Updated status of the expense
+   * @return No content if successfully updated, or 404 Not Found status
    */
   @PatchMapping("/{expenseId}/status")
   public ResponseEntity<Void> updateExpenseStatus(@PathVariable Long expenseId, @RequestBody ExpenseStatus newStatus) {

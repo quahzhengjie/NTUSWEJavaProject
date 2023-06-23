@@ -83,18 +83,6 @@
             required
           ></textarea>
         </div>
-        <div class="mb-3">
-          <label for="expenseStatus" class="form-label">Expense Status</label>
-          <select class="form-select" id="expenseStatus" required>
-            <option value="">Select an Expense Status</option>
-            <option value="PENDING">Pending</option>
-            <option value="APPROVED_BY_SUPERVISOR">
-              Approved by Supervisor
-            </option>
-            <option value="APPROVED_BY_HOD">Approved by HOD</option>
-            <option value="REJECTED">Rejected</option>
-          </select>
-        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </main>
@@ -113,28 +101,72 @@
       form.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const expense = {
-          amount: document.getElementById("expenseAmount").value,
-          category: document.getElementById("category").value,
-          status: document.getElementById("expenseStatus").value,
-          remarks: document.getElementById("expenseDescription").value,
-          createdDate: new Date(),
-        };
+        const expenseDate = new Date(
+          document.getElementById("expenseDate").value
+        );
+        const formattedDate = expenseDate.toISOString().split("T")[0];
 
-        axios
-          .post("/expenses", expense)
-          .then((response) => {
-            console.log("Expense application submitted:", response.data);
-            // Display success message
-            alert("Expense application submitted successfully.");
-            // Redirect to dashboard
-            window.location.href = "/dashboard";
-          })
-          .catch((error) => {
-            console.error("Error submitting expense application:", error);
-            // Display error message
-            alert("Failed to submit expense application.");
-          });
+        // Function to get the value of a cookie by its name
+        function getCookieValue(name) {
+          const value = `; ${document.cookie}`;
+          const parts = value.split(`; ${name}=`);
+          if (parts.length === 2) return parts.pop().split(";").shift();
+        }
+
+        // Get the employee ID from the login cookie
+        const cookieValue = getCookieValue("loginCookie");
+        console.log(cookieValue);
+        const employeeId = cookieValue;
+
+        if (employeeId) {
+          // Make a GET request to fetch the employee profile
+          axios
+            .get(`/employees/${employeeId}`)
+            .then((response) => {
+              const employee = response.data;
+
+              // Get the values from the employee information
+              const createdById = employee.id;
+              const createdByName = `${employee.firstName} ${employee.lastName}`;
+
+              // Use the values as needed in your code
+              console.log("createdById:", createdById);
+              console.log("createdByName:", createdByName);
+
+              const expense = {
+                amount: document.getElementById("expenseAmount").value,
+                category: document.getElementById("category").value,
+                //status: document.getElementById("expenseStatus").value,
+                remarks: document.getElementById("expenseDescription").value,
+                createdDate: formattedDate,
+                createdById: createdById,
+                createdByName: createdByName,
+                status: "PENDING",
+                //supervisorId: document.getElementById("supervisorId").value,
+                //supervisorName: document.getElementById("supervisorName").value,
+              };
+
+              axios
+                .post("/expenses", expense)
+                .then((response) => {
+                  console.log("Expense application submitted:", response.data);
+                  // Display success message
+                  alert("Expense application submitted successfully.");
+                  // Redirect to dashboard
+                  window.location.href = "/dashboard";
+                })
+                .catch((error) => {
+                  console.error("Error submitting expense application:", error);
+                  // Display error message
+                  alert("Failed to submit expense application.");
+                });
+            })
+            .catch((error) => {
+              console.error("Error fetching employee profile:", error);
+            });
+        } else {
+          console.log("Employee ID is not available in the cookie.");
+        }
       });
     </script>
   </body>

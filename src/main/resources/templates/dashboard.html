@@ -25,18 +25,8 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="/about">About</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/application">Apply for Claim</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/dashboard"
-                  >Overview</a
-                >
-              </li>
+            <ul class="navbar-nav" id="navbarItems">
+              <!-- Navbar items will be dynamically added here -->
             </ul>
           </div>
         </div>
@@ -55,21 +45,19 @@
           </table>
         </div>
       </div>
+
       <div class="row mt-5">
         <div class="col-md-12">
           <h2>All Expenses</h2>
+          <h3 id="allExpensesSum"></h3>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>Expense ID</th>
                 <th>Created Date</th>
                 <th>Amount</th>
-                <th>Approved By Supervisor</th>
-                <th>Approved By HOD</th>
-                <th>Created By</th>
                 <th>Type of Claim</th>
                 <th>Remarks</th>
-                <th>Person Rejected</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -79,21 +67,19 @@
           </table>
         </div>
       </div>
+
       <div class="row mt-5">
         <div class="col-md-12">
           <h2>Pending Expenses</h2>
+          <h3 id="pendingExpensesSum"></h3>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>Expense ID</th>
                 <th>Created Date</th>
                 <th>Amount</th>
-                <th>Approved By Supervisor</th>
-                <th>Approved By HOD</th>
-                <th>Created By</th>
                 <th>Type of Claim</th>
                 <th>Remarks</th>
-                <th>Person Rejected</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -103,21 +89,19 @@
           </table>
         </div>
       </div>
+
       <div class="row mt-5">
         <div class="col-md-12">
           <h2>Expenses Approved by Supervisor</h2>
+          <h3 id="approvedBySupervisorExpensesSum"></h3>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>Expense ID</th>
                 <th>Created Date</th>
                 <th>Amount</th>
-                <th>Approved By Supervisor</th>
-                <th>Approved By HOD</th>
-                <th>Created By</th>
                 <th>Type of Claim</th>
                 <th>Remarks</th>
-                <th>Person Rejected</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -127,45 +111,19 @@
           </table>
         </div>
       </div>
-      <div class="row mt-5">
-        <div class="col-md-12">
-          <h2>Expenses Approved by HOD</h2>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Expense ID</th>
-                <th>Created Date</th>
-                <th>Amount</th>
-                <th>Approved By Supervisor</th>
-                <th>Approved By HOD</th>
-                <th>Created By</th>
-                <th>Type of Claim</th>
-                <th>Remarks</th>
-                <th>Person Rejected</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="approvedByHodExpensesTableBody">
-              <!-- Table rows will be dynamically added here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
+
       <div class="row mt-5">
         <div class="col-md-12">
           <h2>Rejected Expenses</h2>
+          <h3 id="rejectedExpensesSum"></h3>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th>Expense ID</th>
                 <th>Created Date</th>
                 <th>Amount</th>
-                <th>Approved By Supervisor</th>
-                <th>Approved By HOD</th>
-                <th>Created By</th>
                 <th>Type of Claim</th>
                 <th>Remarks</th>
-                <th>Person Rejected</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -185,6 +143,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+      // Function to check if the user is logged in
+      function isLoggedIn() {
+        // Replace this logic with your own to determine the login status
+        // For example, you can check if a specific cookie is present
+        const loggedIn = document.cookie.includes("loggedIn=true");
+        return loggedIn;
+      }
+
       // Function to get the value of a cookie by its name
       function getCookieValue(name) {
         const value = `; ${document.cookie}`;
@@ -195,7 +161,60 @@
       // Get the employee ID from the login cookie
       const cookieValue = getCookieValue("loginCookie");
       console.log(cookieValue);
+
+      //
       const employeeId = cookieValue;
+
+      // Check if the cookie value does not exist to determine login status
+      const loggedIn = !!cookieValue;
+
+      // Function to dynamically render the navbar based on login status
+      function renderNavbar() {
+        const navbarItems = document.getElementById("navbarItems");
+
+        if (loggedIn) {
+          // Add navbar items for logged-in users
+          const loggedinNavbarItems = `
+            <li class="nav-item">
+              <a class="nav-link" href="/registeremployee">Update Employee Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/application">Apply for Claim</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">Overview</a>
+            </li>
+       
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="logout()">Logout</a>
+            </li>
+          `;
+
+          navbarItems.innerHTML = loggedinNavbarItems;
+        } else {
+          // Add navbar items for non-logged-in users
+          const nonLoggedinNavbarItems = `
+            <li class="nav-item">
+              <a class="nav-link" href="/createaccount">Create Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+          `;
+
+          navbarItems.innerHTML = nonLoggedinNavbarItems;
+        }
+      }
+
+      // Function to clear the login cookie and redirect to the home page
+      function logout() {
+        document.cookie =
+          "loginCookie=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        window.location.href = "/"; // Replace "/" with the actual URL of your home page
+      }
+
+      // Call the renderNavbar function to render the navbar based on login status
+      renderNavbar();
 
       if (employeeId) {
         // Make a GET request to fetch the employee profile
@@ -250,9 +269,18 @@
         return `${year}-${month}-${day}`;
       }
 
+      // Function to format the date as "yyyy-MM-dd"
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
       // Make a GET request to fetch all expenses
       axios
-        .get("/expenses")
+        .get(`/expenses/createdBy/${employeeId}`)
         .then((response) => {
           const expenses = response.data;
           const allExpensesTableBody = document.getElementById(
@@ -264,50 +292,73 @@
           const approvedBySupervisorExpensesTableBody = document.getElementById(
             "approvedBySupervisorExpensesTableBody"
           );
-          const approvedByHodExpensesTableBody = document.getElementById(
-            "approvedByHodExpensesTableBody"
-          );
+          // const approvedByHodExpensesTableBody = document.getElementById("approvedByHodExpensesTableBody");
           const rejectedExpensesTableBody = document.getElementById(
             "rejectedExpensesTableBody"
           );
+
+          // Initialize sum variables
+          let allExpensesSum = 0;
+          let pendingExpensesSum = 0;
+          let approvedBySupervisorExpensesSum = 0;
+          // let approvedByHodExpensesSum = 0;
+          let rejectedExpensesSum = 0;
 
           // Iterate through the expenses and create table rows for each status
           expenses.forEach((expense) => {
             const row = document.createElement("tr");
             row.innerHTML = `
-              <td><a href="http://localhost:8080/claimdetails?id=${
+              <td><a href="http://localhost:8080/approveclaimdetails?id=${
                 expense.expenseId
               }">${expense.expenseId}</a></td>
               <td>${formatDate(expense.createdDate)}</td>
               <td>${expense.amount}</td>
-              <td>${expense.approvedBySupervisor}</td>
-              <td>${expense.approvedByHOD}</td>
-              <td>${expense.createdBy}</td>
               <td>${expense.category}</td>
               <td>${expense.remarks}</td>
-              <td>${expense.personRejected}</td>
               <td>${expense.status}</td>
             `;
 
-            // Append the row to the corresponding table body based on the expense status
+            // Add row and sum to all expenses regardless of the status
+            allExpensesTableBody.appendChild(row.cloneNode(true)); // Clone the row
+            allExpensesSum += expense.amount;
+
+            // Calculate the sum based on the expense status
             switch (expense.status) {
               case "PENDING":
                 pendingExpensesTableBody.appendChild(row);
+                pendingExpensesSum += expense.amount;
                 break;
               case "APPROVED_BY_SUPERVISOR":
                 approvedBySupervisorExpensesTableBody.appendChild(row);
+                approvedBySupervisorExpensesSum += expense.amount;
                 break;
               case "APPROVED_BY_HOD":
-                approvedByHodExpensesTableBody.appendChild(row);
+                // approvedByHodExpensesTableBody.appendChild(row);
+                // approvedByHodExpensesSum += expense.amount;
                 break;
               case "REJECTED":
                 rejectedExpensesTableBody.appendChild(row);
+                rejectedExpensesSum += expense.amount;
                 break;
               default:
-                allExpensesTableBody.appendChild(row);
                 break;
             }
           });
+
+          // Display the sums above the expense tables
+          document.getElementById(
+            "allExpensesSum"
+          ).textContent = `Total Amount: ${allExpensesSum}`;
+          document.getElementById(
+            "pendingExpensesSum"
+          ).textContent = `Total Amount: ${pendingExpensesSum}`;
+          document.getElementById(
+            "approvedBySupervisorExpensesSum"
+          ).textContent = `Total Amount: ${approvedBySupervisorExpensesSum}`;
+          // document.getElementById("approvedByHodExpensesSum").textContent = `Total Amount: ${approvedByHodExpensesSum}`;
+          document.getElementById(
+            "rejectedExpensesSum"
+          ).textContent = `Total Amount: ${rejectedExpensesSum}`;
         })
         .catch((error) => {
           console.error("Error fetching expenses:", error);

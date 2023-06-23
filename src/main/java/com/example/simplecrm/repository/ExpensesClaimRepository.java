@@ -14,4 +14,6 @@ public interface ExpensesClaimRepository extends JpaRepository<ExpensesClaim, Lo
 
   ExpensesClaim save(ExpensesClaim expense);
 
+  List<ExpensesClaim> findByCreatedById(int createdById);
+
 }

@@ -21,5 +21,5 @@ public interface ExpensesClaimService {
 
   boolean updateExpenseStatus(Long expenseId, ExpenseStatus newStatus);
 
-  boolean updateExpenseApprovals(Long expenseId, Employee supervisor, Employee hod);
+  List<ExpensesClaim> getExpensesByCreatedBy(int createdById);
 }

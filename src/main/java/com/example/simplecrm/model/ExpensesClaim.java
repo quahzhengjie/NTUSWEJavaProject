@@ -1,5 +1,7 @@
 package com.example.simplecrm.model;
 
+import com.example.simplecrm.model.ExpenseStatus;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,23 +15,11 @@ public class ExpensesClaim {
   @Column(name = "expense_id")
   private Long expenseId;
 
-  @ManyToOne
-  @JoinColumn(name = "created_by")
-  private Employee createdBy;
-
   @Column(name = "amount")
   private BigDecimal amount;
 
   @Column(name = "category")
   private String category;
-
-  @ManyToOne
-  @JoinColumn(name = "approved_by_supervisor")
-  private Employee approvedBySupervisor;
-
-  @ManyToOne
-  @JoinColumn(name = "approved_by_hod")
-  private Employee approvedByHod;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
@@ -41,20 +31,56 @@ public class ExpensesClaim {
   @Column(name = "created_date")
   private LocalDate createdDate;
 
+  @Column(name = "created_by_id")
+  private int createdById;
+
+  @Column(name = "created_by_name")
+  private String createdByName;
+
+  @Column(name = "supervisor_name_responded")
+  private String supervisorName;
+
+  @Column(name = "supervisor_id_responded")
+  private int supervisorId;
+
+  public int getSupervisorId() {
+    return supervisorId;
+  }
+
+  public void setSupervisorId(int supervisorId) {
+    this.supervisorId = supervisorId;
+  }
+
+  public String getSupervisorName() {
+    return supervisorName;
+  }
+
+  public void setSupervisorName(String supervisorName) {
+    this.supervisorName = supervisorName;
+  }
+
+  public String getCreatedByName() {
+    return createdByName;
+  }
+
+  public void setCreatedByName(String createdByName) {
+    this.createdByName = createdByName;
+  }
+
+  public int getCreatedById() {
+    return createdById;
+  }
+
+  public void setCreatedById(int createdById) {
+    this.createdById = createdById;
+  }
+
   public Long getExpenseId() {
     return expenseId;
   }
 
   public void setExpenseId(Long expenseId) {
     this.expenseId = expenseId;
-  }
-
-  public Employee getCreatedBy() {
-    return createdBy;
-  }
-
-  public void setCreatedBy(Employee createdBy) {
-    this.createdBy = createdBy;
   }
 
   public BigDecimal getAmount() {
@@ -71,22 +97,6 @@ public class ExpensesClaim {
 
   public void setCategory(String category) {
     this.category = category;
-  }
-
-  public Employee getApprovedBySupervisor() {
-    return approvedBySupervisor;
-  }
-
-  public void setApprovedBySupervisor(Employee approvedBySupervisor) {
-    this.approvedBySupervisor = approvedBySupervisor;
-  }
-
-  public Employee getApprovedByHod() {
-    return approvedByHod;
-  }
-
-  public void setApprovedByHod(Employee approvedByHod) {
-    this.approvedByHod = approvedByHod;
   }
 
   public ExpenseStatus getStatus() {
